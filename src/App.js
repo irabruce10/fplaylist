@@ -4,6 +4,7 @@ import "./index.css";
 export default function App() {
   const [item, setItem] = useState("");
   const [newItem, setNewItem] = useState([]);
+  const [watched, setWatched] = useState([]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -18,18 +19,18 @@ export default function App() {
 
   function handleSelect(items) {
     console.log("jey");
-    const currentItem = newItem.find((item) => item.id === items.id);
+    const currentItem = watched.find((item) => item.id === items.id);
 
     if (currentItem) {
-      setNewItem(
-        newItem.map((item) =>
+      setWatched(
+        watched.map((item) =>
           item.id === items.id
             ? { ...currentItem, qty: currentItem.qty + 1 }
             : item
         )
       );
     } else {
-      setNewItem([...newItem, { ...items, qty: 1 }]);
+      setWatched([...watched, { ...items, qty: 1 }]);
     }
   }
   return (
@@ -41,7 +42,7 @@ export default function App() {
         newItem={newItem}
       />
 
-      <Box newItem={newItem} onSelect={handleSelect} />
+      <Box newItem={newItem} watched={watched} onSelect={handleSelect} />
     </>
   );
 }
@@ -69,7 +70,7 @@ function NavBar({ handleSubmit, item, onItem, newItem }) {
   );
 }
 
-function Box({ newItem, onSelect }) {
+function Box({ newItem, onSelect, watched }) {
   const [isOpen, setIsOpen] = useState(true);
 
   function handleToggle(isOpen) {
@@ -84,7 +85,7 @@ function Box({ newItem, onSelect }) {
         isOpen={isOpen}
         onSelect={onSelect}
       />
-      <WatchedList newItem={newItem} />
+      <WatchedList watched={watched} isOpen={isOpen} />
     </main>
   );
 }
@@ -120,7 +121,7 @@ function List({ item, onSelect }) {
   );
 }
 
-function WatchedList({ onToggle, isOpen, newItem }) {
+function WatchedList({ onToggle, isOpen, watched }) {
   return (
     <div className="box">
       <button className="btn-toggle" onClick={onToggle}>
@@ -132,8 +133,10 @@ function WatchedList({ onToggle, isOpen, newItem }) {
 
         {isOpen ? (
           <ul className="list">
-            {newItem.map((item) => (
-              <WatchedFilm item={item} key={item.id} />
+            {watched.map((item) => (
+              <li>
+                <h3>{item.text}</h3>
+              </li>
             ))}
           </ul>
         ) : (
@@ -144,7 +147,7 @@ function WatchedList({ onToggle, isOpen, newItem }) {
   );
 }
 
-function WatchedFilm({ item }) {
+function WatchedFilm({ item, watched }) {
   return (
     <li>
       <h3>{item.text}</h3>
