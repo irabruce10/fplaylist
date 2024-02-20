@@ -377,3 +377,9 @@ EMPTY STAR
 </svg>
 
 */
+.addToCart {
+  font-weight: bolder;
+  background-color: inherit;
+  border: none;
+  color: var(--color-primary-light);
+}

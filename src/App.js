@@ -59,15 +59,25 @@ function Box({ newItem }) {
     setIsOpen((isOpen) => !isOpen);
   }
 
+  function handleSelect(item) {
+    console.log("hh");
+    console.log(item);
+  }
+
   return (
     <main className="main">
-      <FilmList newItem={newItem} onToggle={handleToggle} isOpen={isOpen} />
+      <FilmList
+        newItem={newItem}
+        onToggle={handleToggle}
+        isOpen={isOpen}
+        onSelect={handleSelect}
+      />
       <WatchedList />
     </main>
   );
 }
 
-function FilmList({ newItem, onToggle, isOpen }) {
+function FilmList({ newItem, onToggle, isOpen, onSelect }) {
   return (
     <div className="box">
       <button className="btn-toggle" onClick={onToggle}>
@@ -77,7 +87,7 @@ function FilmList({ newItem, onToggle, isOpen }) {
       {isOpen ? (
         <ul className="list">
           {newItem.map((item) => (
-            <List item={item} key={item.id} />
+            <List item={item} key={item.id} onSelect={onSelect} />
           ))}
         </ul>
       ) : (
@@ -87,10 +97,13 @@ function FilmList({ newItem, onToggle, isOpen }) {
   );
 }
 
-function List({ item }) {
+function List({ item, onSelect }) {
   return (
     <li>
       <h3>{item.text}</h3>
+      <button className="addToCart" onClick={() => onSelect(item)}>
+        add to list
+      </button>
     </li>
   );
 }
