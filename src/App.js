@@ -8,14 +8,17 @@ export default function App() {
   function handleSubmit(e) {
     e.preventDefault();
 
-    setNewItem([...item, { text: newItem }]);
+    setNewItem([
+      ...newItem,
+      { text: item, id: new Date().getTime().toString(36) },
+    ]);
     console.log(item);
   }
   return (
     <>
       <NavBar handleSubmit={handleSubmit} item={item} onItem={setItem} />
 
-      <Box />
+      <Box newItem={newItem} />
     </>
   );
 }
@@ -41,20 +44,33 @@ function NavBar({ handleSubmit, item, onItem }) {
   );
 }
 
-function Box() {
+function Box({ newItem }) {
   return (
     <main className="main">
-      <FilmList />
+      <FilmList newItem={newItem} />
       <WatchedList />
     </main>
   );
 }
 
-function FilmList() {
+function FilmList({ newItem }) {
   return (
     <div className="box">
-      <button>d</button>
+      <button className="btn-toggle">-</button>
+      <ul className="list">
+        {newItem.map((item) => (
+          <List item={item} key={item.id} />
+        ))}
+      </ul>
     </div>
+  );
+}
+
+function List({ item }) {
+  return (
+    <li>
+      <h3>{item.text}</h3>
+    </li>
   );
 }
 
