@@ -53,7 +53,7 @@ function NavBar({ handleSubmit, item, onItem, newItem }) {
 }
 
 function Box({ newItem }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   function handleToggle(isOpen) {
     setIsOpen((isOpen) => !isOpen);
@@ -71,7 +71,7 @@ function FilmList({ newItem, onToggle, isOpen }) {
   return (
     <div className="box">
       <button className="btn-toggle" onClick={onToggle}>
-        {isOpen ? "+" : "-"}
+        {isOpen ? "-" : "+"}
       </button>
 
       {isOpen ? (
