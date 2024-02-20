@@ -12,7 +12,8 @@ export default function App() {
       ...newItem,
       { text: item, id: new Date().getTime().toString(36) },
     ]);
-    console.log(item);
+
+    setItem("");
   }
   return (
     <>
@@ -45,23 +46,36 @@ function NavBar({ handleSubmit, item, onItem }) {
 }
 
 function Box({ newItem }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  function handleToggle(isOpen) {
+    setIsOpen((isOpen) => !isOpen);
+  }
+
   return (
     <main className="main">
-      <FilmList newItem={newItem} />
+      <FilmList newItem={newItem} onToggle={handleToggle} isOpen={isOpen} />
       <WatchedList />
     </main>
   );
 }
 
-function FilmList({ newItem }) {
+function FilmList({ newItem, onToggle, isOpen }) {
   return (
     <div className="box">
-      <button className="btn-toggle">-</button>
-      <ul className="list">
-        {newItem.map((item) => (
-          <List item={item} key={item.id} />
-        ))}
-      </ul>
+      <button className="btn-toggle" onClick={onToggle}>
+        {isOpen ? "+" : "-"}
+      </button>
+
+      {isOpen ? (
+        <ul className="list">
+          {newItem.map((item) => (
+            <List item={item} key={item.id} />
+          ))}
+        </ul>
+      ) : (
+        ""
+      )}
     </div>
   );
 }
