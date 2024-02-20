@@ -3,29 +3,19 @@ import "./index.css";
 
 export default function App() {
   const [item, setItem] = useState("");
+  const [newItem, setNewItem] = useState([]);
 
   function handleSubmit(e) {
     e.preventDefault();
-    
+
+    setNewItem([...item, { text: newItem }]);
     console.log(item);
   }
   return (
     <>
       <NavBar handleSubmit={handleSubmit} item={item} onItem={setItem} />
 
-      <main className="main">
-        <div className="box"></div>
-
-        <div className="box">
-          <button></button>
-
-          <>
-            <div className="summary"></div>
-
-            <ul className="list"></ul>
-          </>
-        </div>
-      </main>
+      <Box />
     </>
   );
 }
@@ -48,5 +38,36 @@ function NavBar({ handleSubmit, item, onItem }) {
 
       <p className="num-results">Found results</p>
     </nav>
+  );
+}
+
+function Box() {
+  return (
+    <main className="main">
+      <FilmList />
+      <WatchedList />
+    </main>
+  );
+}
+
+function FilmList() {
+  return (
+    <div className="box">
+      <button>d</button>
+    </div>
+  );
+}
+
+function WatchedList() {
+  return (
+    <div className="box">
+      <button>d</button>
+
+      <>
+        <div className="summary"></div>
+        ds
+        <ul className="list"></ul>
+      </>
+    </div>
   );
 }
