@@ -15,6 +15,23 @@ export default function App() {
 
     setItem("");
   }
+
+  function handleSelect(items) {
+    console.log("jey");
+    const currentItem = newItem.find((item) => item.id === items.id);
+
+    if (currentItem) {
+      setNewItem(
+        newItem.map((item) =>
+          item.id === items.id
+            ? { ...currentItem, qty: currentItem.qty + 1 }
+            : item
+        )
+      );
+    } else {
+      setNewItem([...newItem, { ...items, qty: 1 }]);
+    }
+  }
   return (
     <>
       <NavBar
@@ -24,7 +41,7 @@ export default function App() {
         newItem={newItem}
       />
 
-      <Box newItem={newItem} />
+      <Box newItem={newItem} onSelect={handleSelect} />
     </>
   );
 }
@@ -52,16 +69,11 @@ function NavBar({ handleSubmit, item, onItem, newItem }) {
   );
 }
 
-function Box({ newItem }) {
+function Box({ newItem, onSelect }) {
   const [isOpen, setIsOpen] = useState(true);
 
   function handleToggle(isOpen) {
     setIsOpen((isOpen) => !isOpen);
-  }
-
-  function handleSelect(item) {
-    console.log("hh");
-    console.log(item);
   }
 
   return (
@@ -70,9 +82,9 @@ function Box({ newItem }) {
         newItem={newItem}
         onToggle={handleToggle}
         isOpen={isOpen}
-        onSelect={handleSelect}
+        onSelect={onSelect}
       />
-      <WatchedList />
+      <WatchedList newItem={newItem} />
     </main>
   );
 }
@@ -102,22 +114,41 @@ function List({ item, onSelect }) {
     <li>
       <h3>{item.text}</h3>
       <button className="addToCart" onClick={() => onSelect(item)}>
-        add to list
+        Add to List
       </button>
     </li>
   );
 }
 
-function WatchedList() {
+function WatchedList({ onToggle, isOpen, newItem }) {
   return (
     <div className="box">
-      <button className="btn-toggle">-</button>
+      <button className="btn-toggle" onClick={onToggle}>
+        {isOpen ? "-" : "+"}
+      </button>
 
       <>
-        <div className="summary"></div>
-        ds
-        <ul className="list"></ul>
+        <div className="summary">summary</div>
+
+        {isOpen ? (
+          <ul className="list">
+            {newItem.map((item) => (
+              <WatchedFilm item={item} key={item.id} />
+            ))}
+          </ul>
+        ) : (
+          ""
+        )}
       </>
     </div>
+  );
+}
+
+function WatchedFilm({ item }) {
+  return (
+    <li>
+      <h3>{item.text}</h3>
+      <button className="addToCart">Add to List</button>
+    </li>
   );
 }
