@@ -98,7 +98,7 @@ function List({ item }) {
 function WatchedList() {
   return (
     <div className="box">
-      <button>d</button>
+      <button className="btn-toggle">-</button>
 
       <>
         <div className="summary"></div>
