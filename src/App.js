@@ -17,14 +17,19 @@ export default function App() {
   }
   return (
     <>
-      <NavBar handleSubmit={handleSubmit} item={item} onItem={setItem} />
+      <NavBar
+        handleSubmit={handleSubmit}
+        item={item}
+        onItem={setItem}
+        newItem={newItem}
+      />
 
       <Box newItem={newItem} />
     </>
   );
 }
 
-function NavBar({ handleSubmit, item, onItem }) {
+function NavBar({ handleSubmit, item, onItem, newItem }) {
   return (
     <nav className="nav-bar">
       <div className="logo">
@@ -40,7 +45,9 @@ function NavBar({ handleSubmit, item, onItem }) {
         />
       </form>
 
-      <p className="num-results">Found results</p>
+      <p className="num-results">
+        Found <span>{newItem.length} </span>results
+      </p>
     </nav>
   );
 }
