@@ -129,7 +129,11 @@ function WatchedList({ onToggle, isOpen, watched }) {
       </button>
 
       <>
-        <div className="summary">summary</div>
+        <div className="summary">
+          <h3>
+            FilmList to WToday <span>{watched.length}</span>
+          </h3>
+        </div>
 
         {isOpen ? (
           <ul className="list">
